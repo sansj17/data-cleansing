@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Row Flow Sankey</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* personal_design_system tokens: Mocha (dark), always */
+    :root {
+      --base: #1e1e2e; --surface: #313244; --border: #7f849c;
+      --text: #cdd6f4; --subtext: #a6adc8; --accent: #89b4fa;
+      --font-mono: "Cousine Nerd Font Mono", "Courier New", monospace;
+    }
+    body {
+      font-family: var(--font-mono); background: var(--base); color: var(--text);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem;
+    }
+    .frame { max-width: 1240px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-size: 12px; line-height: 16px; font-weight: 700; color: var(--subtext); margin-bottom: 8px; }
+    h1 { font-size: 24px; line-height: 32px; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+    svg { width: 100%; min-width: 1240px; display: block; }
+    svg text { font-family: var(--font-mono); }
+    .bg { fill: var(--base); }
+    .flow { fill: var(--subtext); fill-opacity: 0.18; }
+    .flow.focal { fill: var(--accent); fill-opacity: 0.45; }
+    .bar { fill: var(--text); }
+    .name { font-size: 12px; font-weight: 700; fill: var(--text); }
+    .name.focal { fill: var(--accent); }
+    .sub { font-size: 9px; fill: var(--subtext); }
+    .eyebrow-s { font-size: 8px; font-weight: 700; letter-spacing: 0.14em; fill: var(--subtext); }
+    .rule { stroke: var(--border); stroke-width: 1; opacity: 0.5; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Sankey · suppliers.duckdb</p>
+    <h1>Where every raw row went</h1>
+    <div class="diagram-container">
+      <svg viewBox="0 0 1240 712" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sankey-title sankey-desc">
+        <title id="sankey-title">Supplier row flow Sankey</title>
+        <desc id="sankey-desc">Of 2,500 raw rows, 2,482 are loaded and 18 duplicate vendor rows are merged away; 69 loaded rows are orphans still waiting for quarantine, and none are quarantined yet.</desc>
+        <rect width="100%" height="100%" class="bg"/>
+<text x="246.0" y="64" text-anchor="middle" class="eyebrow-s">RAW TABLE</text><text x="606.0" y="64" text-anchor="middle" class="eyebrow-s">CLEANSING OUTCOME</text><text x="966.0" y="64" text-anchor="middle" class="eyebrow-s">STATE OF LOADED ROWS</text>
+<path d="M252,124 C426.0,124 426.0,124 600,124 L600,128 C426.0,128 426.0,128 252,128 Z" class="flow"/>
+<path d="M252,128 C426.0,128 426.0,172 600,172 L600,200 C426.0,200 426.0,156 252,156 Z" class="flow"/>
+<path d="M252,180 C426.0,180 426.0,200 600,200 L600,328 C426.0,328 426.0,308 252,308 Z" class="flow"/>
+<path d="M252,332 C426.0,332 426.0,328 600,328 L600,568 C426.0,568 426.0,572 252,572 Z" class="flow"/>
+<path d="M612,124 C786.0,124 786.0,124 960,124 L960,128 C786.0,128 786.0,128 612,128 Z" class="flow"/>
+<path d="M612,184 C786.0,184 786.0,196 960,196 L960,580 C786.0,580 786.0,568 612,568 Z" class="flow"/>
+<path d="M612,172 C786.0,172 786.0,156 960,156 L960,168 C786.0,168 786.0,184 612,184 Z" class="flow focal"/>
+<rect x="240" y="124" width="12" height="32" class="bar"/>
+<rect x="240" y="180" width="12" height="128" class="bar"/>
+<rect x="240" y="332" width="12" height="240" class="bar"/>
+<rect x="600" y="124" width="12" height="4" class="bar"/>
+<rect x="600" y="172" width="12" height="396" class="bar"/>
+<rect x="960" y="124" width="12" height="4" class="bar"/>
+<rect x="960" y="156" width="12" height="12" class="bar"/>
+<rect x="960" y="196" width="12" height="384" class="bar"/>
+<text x="228" y="138.0" text-anchor="end" class="name">Vendors</text><text x="228" y="152.0" text-anchor="end" class="sub">200 rows</text>
+<text x="228" y="242.0" text-anchor="end" class="name">Purchase orders</text><text x="228" y="256.0" text-anchor="end" class="sub">800 rows</text>
+<text x="228" y="450.0" text-anchor="end" class="name">Invoices</text><text x="228" y="464.0" text-anchor="end" class="sub">1,500 rows</text>
+<text x="606.0" y="100" text-anchor="middle" class="name">Merged away</text><text x="606.0" y="114" text-anchor="middle" class="sub">18 vendor rows</text>
+<text x="606.0" y="148" text-anchor="middle" class="name">Loaded</text><text x="606.0" y="162" text-anchor="middle" class="sub">2,482 rows</text>
+<text x="984" y="124.0" class="name">Merged into survivor</text><text x="984" y="138.0" class="sub">18 rows, mapped to survivors</text>
+<text x="984" y="160.0" class="name focal">Orphan, still loaded</text><text x="984" y="174.0" class="sub">69 rows: 22 POs + 47 invoices</text>
+<text x="984" y="386.0" class="name">Clean</text><text x="984" y="400.0" class="sub">2,413 rows</text>
+<line x1="40" y1="640" x2="1200" y2="640" class="rule"/>
+<rect x="40" y="656" width="16" height="8" class="flow"/><text x="64" y="664" class="sub">rows (bar height = rows at 0.16 px per row; 4px minimum)</text>
+<rect x="420" y="656" width="16" height="8" class="flow focal"/><text x="444" y="664" class="sub">orphans: loaded, but quarantine rules are not built yet</text>
+<text x="40" y="690" class="sub">Quarantined: 0 rows. Payment terms, dates, names, emails and tax IDs are not cleansed yet, so they do not appear here.</text>
+
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

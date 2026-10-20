@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supplier Data Fishbone</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* personal_design_system tokens: Mocha (dark), always */
+    :root {
+      --base: #1e1e2e; --surface: #313244; --border: #7f849c;
+      --text: #cdd6f4; --subtext: #a6adc8; --accent: #89b4fa;
+      --font-mono: "Cousine Nerd Font Mono", "Courier New", monospace;
+    }
+    body {
+      font-family: var(--font-mono); background: var(--base); color: var(--text);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem;
+    }
+    .frame { max-width: 1480px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-size: 12px; line-height: 16px; font-weight: 700; color: var(--subtext); margin-bottom: 8px; }
+    h1 { font-size: 24px; line-height: 32px; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+    svg { width: 100%; min-width: 1480px; display: block; }
+    svg text { font-family: var(--font-mono); }
+    .bg { fill: var(--base); }
+    .spine { stroke: var(--text); stroke-width: 1.2; }
+    .bone { stroke: var(--border); stroke-width: 1.2; }
+    .bone.focal { stroke: var(--accent); stroke-width: 1.6; }
+    .tick { stroke: var(--subtext); stroke-width: 1; }
+    .tag { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+    .tag.focal { stroke: var(--accent); }
+    .cat { font-size: 12px; font-weight: 700; fill: var(--text); }
+    .cat.focal { fill: var(--accent); }
+    .box { fill: var(--surface); stroke: var(--accent); stroke-width: 1; }
+    .tint { fill: var(--accent); fill-opacity: 0.08; }
+    .eyebrow-s { font-size: 9px; font-weight: 700; fill: var(--accent); }
+    .eff { font-size: 12px; font-weight: 700; fill: var(--text); }
+    .sub { font-size: 9px; fill: var(--subtext); }
+    .rule { stroke: var(--border); stroke-width: 1; opacity: 0.5; }
+    .arrowhead { fill: var(--text); }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Fishbone · suppliers.duckdb</p>
+    <h1>Why vendor and payables data fails quality checks</h1>
+    <div class="diagram-container">
+      <svg viewBox="-40 80 1480 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fishbone-title fishbone-desc">
+        <title id="fishbone-title">Supplier data quality fishbone</title>
+        <desc id="fishbone-desc">Four categories of likely root causes behind the data quality failures in the supplier database, with entry validation highlighted as the most likely.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" class="arrowhead"/></marker>
+        </defs>
+        <rect x="-40" y="80" width="1480" height="520" class="bg"/>
+        <line x1="0" y1="320" x2="1200" y2="320" class="spine" marker-end="url(#arrow)"/>
+<line x1="784" y1="152" x2="880" y2="320" class="bone focal"/>
+<line x1="624" y1="488" x2="720" y2="320" class="bone"/>
+<line x1="464" y1="152" x2="560" y2="320" class="bone"/>
+<line x1="304" y1="488" x2="400" y2="320" class="bone"/>
+<line x1="859" y1="284" x2="827" y2="284" class="tick"/>
+<text x="823" y="280" text-anchor="end" class="sub">Free-text country: 15 spellings</text>
+<line x1="834" y1="240" x2="802" y2="240" class="tick"/>
+<text x="798" y="236" text-anchor="end" class="sub">Free-text terms: 16 spellings</text>
+<line x1="809" y1="196" x2="777" y2="196" class="tick"/>
+<text x="773" y="192" text-anchor="end" class="sub">Dates stored as text: 25 non-ISO</text>
+<line x1="699" y1="356" x2="667" y2="356" class="tick"/>
+<text x="663" y="368" text-anchor="end" class="sub">No foreign keys: 33 orphans</text>
+<line x1="674" y1="400" x2="642" y2="400" class="tick"/>
+<text x="638" y="412" text-anchor="end" class="sub">tax_id not unique: 12 dup groups</text>
+<line x1="539" y1="284" x2="507" y2="284" class="tick"/>
+<text x="503" y="280" text-anchor="end" class="sub">No duplicate check: 18 surplus</text>
+<line x1="514" y1="240" x2="482" y2="240" class="tick"/>
+<text x="478" y="236" text-anchor="end" class="sub">Tax ID optional: 18 blank, 9 bad</text>
+<line x1="489" y1="196" x2="457" y2="196" class="tick"/>
+<text x="453" y="192" text-anchor="end" class="sub">Inactive vendors get POs: 66</text>
+<line x1="379" y1="356" x2="347" y2="356" class="tick"/>
+<text x="343" y="368" text-anchor="end" class="sub">ALL-CAPS name variants: 12</text>
+<line x1="354" y1="400" x2="322" y2="400" class="tick"/>
+<text x="318" y="412" text-anchor="end" class="sub">Truncated emails: 14</text>
+<line x1="329" y1="444" x2="297" y2="444" class="tick"/>
+<text x="293" y="456" text-anchor="end" class="sub">Repeat invoice loads: 9</text>
+<rect x="715" y="124" width="139" height="28" rx="4" class="tag focal"/><text x="784" y="142" text-anchor="middle" class="cat focal">Entry validation</text>
+<rect x="547" y="488" width="154" height="28" rx="4" class="tag"/><text x="624" y="506" text-anchor="middle" class="cat">Schema constraints</text>
+<rect x="391" y="124" width="146" height="28" rx="4" class="tag"/><text x="464" y="142" text-anchor="middle" class="cat">Vendor onboarding</text>
+<rect x="242" y="488" width="125" height="28" rx="4" class="tag"/><text x="304" y="506" text-anchor="middle" class="cat">Source systems</text>
+<rect x="1200" y="248" width="200" height="144" rx="8" class="box"/><rect x="1200" y="248" width="200" height="144" rx="8" class="tint"/>
+<text x="1212" y="272" class="eyebrow-s">Observed effect</text>
+<text x="1212" y="294" class="eff">Vendor, PO and invoice</text>
+<text x="1212" y="310" class="eff">data fails basic quality</text>
+<text x="1212" y="326" class="eff">checks before migration</text>
+<text x="1212" y="352" class="sub">200 vendors · 800 POs</text>
+<text x="1212" y="368" class="sub">1,500 invoices</text>
+<line x1="0" y1="540" x2="1400" y2="540" class="rule"/>
+<text x="0" y="562" class="sub">Highlighted: most likely root cause. Counts are rows from sql/profile.sql. Causes are inferred from data patterns, not yet confirmed with source-system owners.</text>
+
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

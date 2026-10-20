@@ -1,0 +1,6 @@
+suppliers.duckdb
+suppliers.duckdb.wal
+answer_key.json
+.venv/
+__pycache__/
+.pytest_cache/

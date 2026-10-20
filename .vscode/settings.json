@@ -1,0 +1,11 @@
+{
+    "duckdb.databases": [
+        {
+            "alias": "suppliers",
+            "type": "file",
+            "path": "/Users/santiagosanchezjimenez/workspace/data-cleansing/suppliers.duckdb",
+            "attached": true
+        }
+    ],
+    "duckdb.defaultDatabase": "suppliers"
+}
