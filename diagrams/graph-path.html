@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Path Orphan to Quarantine</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    /* personal_design_system tokens: Mocha (dark), always */
+    :root {
+      --base: #1e1e2e; --surface: #313244; --border: #7f849c;
+      --text: #cdd6f4; --subtext: #a6adc8; --accent: #89b4fa;
+      --font-mono: "Cousine Nerd Font Mono", "Courier New", monospace;
+    }
+    body {
+      font-family: var(--font-mono); background: var(--base); color: var(--text);
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 3rem 2rem;
+    }
+    .frame { max-width: 800px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow { font-size: 12px; line-height: 16px; font-weight: 700; color: var(--subtext); margin-bottom: 8px; }
+    h1 { font-size: 24px; line-height: 32px; font-weight: 700; color: var(--text); margin-bottom: 24px; }
+    svg { width: 100%; min-width: 760px; display: block; }
+    svg text { font-family: var(--font-mono); }
+    .bg { fill: var(--base); }
+    .conn { fill: none; stroke: var(--subtext); stroke-width: 1; }
+    .conn.dash { stroke-dasharray: 5,4; }
+    .arrowhead { fill: var(--subtext); }
+    .mask { fill: var(--base); }
+    .lab { font-size: 8px; letter-spacing: 0.08em; fill: var(--subtext); }
+    .box { fill: var(--surface); stroke: var(--border); stroke-width: 1; }
+    .box.focal { stroke: var(--accent); }
+    .tint { fill: var(--accent); fill-opacity: 0.08; }
+    .name { font-size: 12px; font-weight: 700; fill: var(--text); }
+    .sub { font-size: 9px; fill: var(--subtext); }
+    .rule { stroke: var(--border); stroke-width: 1; opacity: 0.5; }
+    @media print { .diagram-container { overflow-x: visible; } svg { min-width: 0; } }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Tree · graphify path "Orphan" "Quarantine"</p>
+    <h1>Two terms linked only through their parent</h1>
+    <div class="diagram-container">
+      <svg viewBox="0 0 760 372" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="graph-path-title graph-path-desc">
+        <title id="graph-path-title">Graph path from Orphan to Quarantine</title>
+        <desc id="graph-path-desc">The knowledge graph links Orphan and Quarantine in two hops, through the Supplier Payables Glossary that references both; the real flow from orphan to quarantine is not in the graph.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0, 8 3, 0 6" class="arrowhead"/></marker>
+        </defs>
+        <rect width="100%" height="100%" class="bg"/>
+
+        <!-- connectors first -->
+        <path d="M350,104 V148 Q350,156 342,156 H188 Q180,156 180,164 V206" class="conn" marker-end="url(#arrow)"/>
+        <path d="M410,104 V148 Q410,156 418,156 H572 Q580,156 580,164 V206" class="conn" marker-end="url(#arrow)"/>
+        <line x1="280" y1="236" x2="478" y2="236" class="conn dash" marker-end="url(#arrow)"/>
+
+        <rect x="225" y="134" width="80" height="14" class="mask"/>
+        <text x="265" y="144" text-anchor="middle" class="lab">REFERENCES</text>
+        <rect x="225" y="164" width="80" height="14" class="mask"/>
+        <text x="265" y="174" text-anchor="middle" class="lab">EXTRACTED</text>
+        <rect x="455" y="134" width="80" height="14" class="mask"/>
+        <text x="495" y="144" text-anchor="middle" class="lab">REFERENCES</text>
+        <rect x="455" y="164" width="80" height="14" class="mask"/>
+        <text x="495" y="174" text-anchor="middle" class="lab">EXTRACTED</text>
+        <rect x="340" y="214" width="80" height="14" class="mask"/>
+        <text x="380" y="224" text-anchor="middle" class="lab">TICKET 07</text>
+        <rect x="340" y="244" width="80" height="14" class="mask"/>
+        <text x="380" y="254" text-anchor="middle" class="lab">NOT BUILT</text>
+
+        <!-- nodes -->
+        <rect x="260" y="48" width="240" height="56" rx="6" class="box focal"/>
+        <rect x="260" y="48" width="240" height="56" rx="6" class="tint"/>
+        <text x="380" y="72" text-anchor="middle" class="name">Supplier Payables Glossary</text>
+        <text x="380" y="90" text-anchor="middle" class="sub">GLOSSARY.md · the shared parent</text>
+
+        <rect x="80" y="208" width="200" height="56" rx="6" class="box"/>
+        <text x="180" y="232" text-anchor="middle" class="name">Orphan</text>
+        <text x="180" y="250" text-anchor="middle" class="sub">glossary term</text>
+
+        <rect x="480" y="208" width="200" height="56" rx="6" class="box"/>
+        <text x="580" y="232" text-anchor="middle" class="name">Quarantine</text>
+        <text x="580" y="250" text-anchor="middle" class="sub">glossary term</text>
+
+        <!-- caption and legend -->
+        <text x="40" y="304" class="sub">The graph's shortest path is 2 hops, and it exists only because both terms are defined in the same glossary.</text>
+        <text x="40" y="320" class="sub">The real flow, an orphan record moving into quarantine, is described in the spec and ticket 07 but is not in the graph.</text>
+        <line x1="40" y1="336" x2="720" y2="336" class="rule"/>
+        <line x1="40" y1="354" x2="72" y2="354" class="conn" marker-end="url(#arrow)"/>
+        <text x="84" y="357" class="sub">in the graph (read from source)</text>
+        <line x1="340" y1="354" x2="372" y2="354" class="conn dash" marker-end="url(#arrow)"/>
+        <text x="384" y="357" class="sub">intended flow, not in the graph</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

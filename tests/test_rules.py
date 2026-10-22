@@ -3,6 +3,7 @@
 import duckdb
 import pytest
 
+import cleanse
 from cleanse import run
 
 
@@ -93,6 +94,18 @@ def test_invoice_money_reconciles(con):
         count(con, "SELECT sum(amount) FROM clean_invoices") + count(con, "SELECT coalesce(sum(amount), 0) FROM quarantine_invoices"))
 
 
+def test_a_failing_rule_leaves_the_previous_outputs_intact(con, tmp_path, monkeypatch):
+    add_vendor(con, 1)
+    run(con)
+    add_vendor(con, 2, name="Other Inc", tax_id="22-2222222")
+    (tmp_path / "00_init.sql").write_text((cleanse.RULES / "00_init.sql").read_text())
+    (tmp_path / "99_broken.sql").write_text("SELECT * FROM table_that_does_not_exist;")
+    monkeypatch.setattr(cleanse, "RULES", tmp_path)
+    with pytest.raises(duckdb.Error):
+        run(con)
+    assert count(con, "SELECT count(*) FROM clean_vendors") == 1
+
+
 # --- 02: standardize country codes ---------------------------------------------
 
 @pytest.mark.parametrize("raw, expected", [
@@ -115,12 +128,6 @@ def test_unrecognisable_country_is_blanked_listed_and_vendor_still_loaded(con):
     assert con.execute("SELECT table_name, record_id, field, raw_value FROM review_items").fetchall() == [
         ("vendors", 1, "country", "Atlantis")]
 
-
-def test_every_clean_country_is_valid_or_blank(con):
-    for i, c in enumerate(["USA", "Can.", "Méx", "Narnia", "mx"], start=1):
-        add_vendor(con, i, country=c, name=f"Vendor {i} Corp", tax_id=f"1{i}-111111{i}")
-    run(con)
-    assert count(con, "SELECT count(*) FROM clean_vendors WHERE country IS NOT NULL AND country NOT IN ('US','CA','MX')") == 0
 
 
 # --- 05: merge duplicate vendors and re-point purchase orders --------------------

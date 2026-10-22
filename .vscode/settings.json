@@ -4,7 +4,8 @@
             "alias": "suppliers",
             "type": "file",
             "path": "/Users/santiagosanchezjimenez/workspace/data-cleansing/suppliers.duckdb",
-            "attached": true
+            "attached": true,
+            "readOnly": true
         }
     ],
     "duckdb.defaultDatabase": "suppliers"

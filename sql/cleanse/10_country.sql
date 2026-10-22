@@ -13,6 +13,6 @@ WHERE l.spelling = lower(trim(replace(strip_accents(clean_vendors.country), '.',
 -- Anything still not a valid code is unrecognisable: list it for review, blank it, and keep the vendor.
 INSERT INTO review_items
 SELECT 'vendors', vendor_id, 'country', country, 'unrecognised country' FROM clean_vendors
-WHERE country IS NOT NULL AND country NOT IN ('US', 'CA', 'MX');
+WHERE country IS NOT NULL AND country NOT IN (SELECT code FROM country_lookup);
 
-UPDATE clean_vendors SET country = NULL WHERE country IS NOT NULL AND country NOT IN ('US', 'CA', 'MX');
+UPDATE clean_vendors SET country = NULL WHERE country IS NOT NULL AND country NOT IN (SELECT code FROM country_lookup);
